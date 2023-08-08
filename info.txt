@@ -1,0 +1,61 @@
+All the steps I have added as soon I have implemented it
+
+As per my local machine php version I have created a laravel project inside MAMP (local server environment) 
+
+1. composer create-project --prefer-dist laravel/laravel:^7.0 trip_builder
+2. By looking at .env file you can clearly see which environment variables are needed to run this application
+Need to change database configuration as per your phpMyAdmin and database name (I have already created database with name trip_builder with latin1_swedish_ci collation)
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=trip_builder
+DB_USERNAME=root
+DB_PASSWORD=root
+
+Version control for Database
+3. I have created all the required migrations files to create database tables
+php artisan make:migration create_airlines_table
+php artisan make:migration create_airports_table
+php artisan make:migration create_flight_schedules_table
+
+I have used Laravel schema builder to create our table structure into database.
+
+You just simply have to run -> php artisan migrate // Please check if the database is there or not
+
+4. Next I have modified the default DatabaseSeeder class and added a database insert statement to the run method.
+Which will insert test dummy data inside all the tables
+just run -> php artisan db:seed
+
+5. Using apiResource(which will exclude create & edit routes that present HTML templates) to create Resource controllers of Airline, Airport, FlightSchedule 
+php artisan make:controller API/AirlineController --api
+php artisan make:controller API/AirportController --api
+php artisan make:controller API/FlightSchedulesController --api
+
+6. I have created Eloquent models for each Resource
+php artisan make:model Models/Airline
+php artisan make:model Models/Airport
+php artisan make:model Models/FlightSchedule
+
+7. worked on index function of FlightScheduleController resource to get the desired output at endpoint "/flightSchedules?from=YVR&to=YUL&trip_type=oneway"
+
+How to Earn Extra Consideration
+
+● Deploy the application online to ease the review process - Done
+● Manage requirements and dependencies - Done
+● Document Web Services - Working
+● Scale beyond sample data - Done
+● Make a front-end consuming the API through a proxy. Usability is key.
+● Add CRUD functionalities to models
+● Make the API RESTful - Done
+● Cache search results
+● Calculate total distance traveled in a trip
+● Implement automated software tests
+● Sort trip listing (by total cost, duration, etc.) - Working
+● Filter trips (by airline, total duration, total cost, etc.)
+● Paginate trip listing - working
+● Extend search results to locations that are in the vicinity (less than 100 km) of original search
+locations. The motivation to return alternative routes MUST be to save money.
+● (only the brave) Support connecting flights (i.e. portion of a trip from A to B but with many flights
+to connect to the desired destination, e.g. A to B connected through C); connection time (e.g. wait delay at C) should be at least 1 hour and at most 6 hours. Motivation for connecting flights MUST be to offer trips where direct connections aren’t available (e.g. going from YUL to YVR through YYZ because direct connection from Montreal to Vancouver is not available) OR to save money (e.g. it’s cheaper to transit through Toronto).
+Be mindful of timezones! (note: this is not a traveling salesman problem).
